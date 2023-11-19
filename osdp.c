@@ -6,7 +6,7 @@
 #define FULL_TIME 120
 
 typedef struct {
-    char type;  // 동그라미(Circle), 세모(Triangle), 별(Star), 우산(Umbrella)
+    char type;
     int x, y;
 } Dalgona;
 
@@ -23,11 +23,9 @@ int main() {
     int currentX = 0, currentY = 0;
     int timeRemaining = FULL_TIME;
 
-    // 초기 보드 생성
-    // (이 부분은 실제 게임 초기화 로직으로 대체되어야 합니다)
     for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
-            board[i][j].type = 'A' + rand() % 4;  // 랜덤 알파벳
+            board[i][j].type = 'A' + rand() % 8;
             board[i][j].x = i;
             board[i][j].y = j;
         }
@@ -70,16 +68,16 @@ void PrintBoard(Dalgona board[BOARD_SIZE][BOARD_SIZE]) {
 
 void ChooseDalgona(int *currentX, int *currentY, char keyPressed) {
     switch (keyPressed) {
-        case'↑':
+        case '↑':
             (*currentX)--;
             break;
-        case'↓':
+        case '↓':
             (*currentX)++;
             break;
-        case'←':
+        case '←':
             (*currentY)--;
             break;
-        case'→':
+        case '→':
             (*currentY)++;
             break;
     }
@@ -142,26 +140,26 @@ int ScoreDalgona(Dalgona board[BOARD_SIZE][BOARD_SIZE]) {
 }
 
 void FillDalgona(Dalgona board[BOARD_SIZE][BOARD_SIZE]) {
-    for (int j = 0; j < BOARD_SIZE; ++j) {
-        for (int i = BOARD_SIZE - 1; i > 0; --i) {
-            if (board[i][j].type == ' ' && board[i - 1][j].type != ' ') {
-                board[i][j].type = board[i - 1][j].type;
-                board[i - 1][j].type = ' ';
+    for (int j = BOARD_SIZE - 1; j > 0; j--) {
+        for (int i = 0; i < BOARD_SIZE; i++) {
+            if (board[i][j].type == ' ' && board[i][j-1].type != ' ') {
+                board[i][j].type = board[i][j-1].type;
+                board[i][j-1].type = ' ';
             }
         }
     }
 }
 
 void FillDalgona2(Dalgona board[BOARD_SIZE][BOARD_SIZE]) {
-    for (int i = 0; i < BOARD_SIZE; ++i) {
-        for (int j = 0; j < BOARD_SIZE; ++j){
+    for (int i = 0; i < BOARD_SIZE; i++) {
+        for (int j = 0; j < BOARD_SIZE; j++){
             if(board[i][j].type == ' '){
-                 board[i][j].type = 'A' + rand() % 4;
+                 board[i][j].type = 'A' + rand() % 8;
             }
         }
     }
 }
 
 void TimeOver() {
-    printf("Game Over\n");
+    printf("종료\n");
 }
